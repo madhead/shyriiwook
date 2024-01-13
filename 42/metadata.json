@@ -1,0 +1,11 @@
+{
+  "uuid": "shyriiwook@madhead.me",
+
+  "name": "Shyriiwook",
+  "description": "Switch keyboard layouts programmatically",
+  "url": "https://github.com/madhead/shyriiwook",
+
+  "shell-version": [
+    "42"
+  ]
+}

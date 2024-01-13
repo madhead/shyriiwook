@@ -1,0 +1,53 @@
+= Shyriiwook
+
+Switch keyboard layouts programmatically!
+
+== The Problem
+
+It's a shame that there is no easy way to switch keyboard input layout programmatically in Ubuntu (Gnome).
+All the existing solutions are flawed in some way or another:
+
+* `gsettings set org.gnome.desktop.input-sources …`, found in many answers in the Internet is not working anymore in the latest Ubuntu versions.
+* `setxkbmap …` doesn't play well with the Gnome shell.
+It switches the layout, but the UI doesn't reflect the change and you cannot switch languages with the keyboard shortcut anymore untill you restart.
+* The `gdbus call … method org.gnome.Shell.Eval` is deprecated & disabled due to the security reasons with the `Eval` method.
+* Finally, the `org.gnome.Shell.Shell.Eval` https://github.com/ramottamado/eval-gjs[replacement] is really sketchy, and it's essentially the same powerfulr `Eval` but from a third-party dev from GitHub.
+
+== The Solution
+
+Create a Gnome shell extension that allows to switch keyboard layouts programmatically.
+The extension exposes a D-Bus interface, that could be used to query for the available layouts and to switch between them via `gdbus call …`.
+However, it is programmed to only swithc between the layouts, and does not expose a security breach like the `Eval` method.
+
+== Usage
+
+Fiest, install the extension.
+
+To query for the available layouts, run:
+
+[source, bash]
+----
+gdbus introspect --session --dest org.gnome.Shell --object-path /me/madhead/Shyyriiwook --only-properties
+----
+
+It will output something like this:
+
+[source, bash]
+----
+node /me/madhead/Shyriiwook {
+  interface me.madhead.Shyriiwook {
+    properties:
+      readonly as availableLayouts = ['us', 'by+ru'];
+  };
+};
+----
+
+These `availableLayouts` could be used to switch between the layouts, just pass one of them as an argument to the `activate` method:
+
+[source, bash]
+----
+gdbus call --session --dest org.gnome.Shell --object-path /me/madhead/Shyriiwook --method me.madhead.Shyriiwook.activate "by+ru"
+----
+
+That's it!
+Now you could use that in your scripts, or even bind it to a keyboard shortcut in Gnome settings.

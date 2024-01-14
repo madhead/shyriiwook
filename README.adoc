@@ -4,30 +4,38 @@ Switch keyboard layouts programmatically!
 
 == The Problem
 
-It's a shame that there is no easy way to switch keyboard input layout programmatically in Ubuntu (Gnome).
+It's a shame that there is no easy way to switch keyboard input layout programmatically in Ubuntu (GNOME).
 All the existing solutions are flawed in some way or another:
 
 * `gsettings set org.gnome.desktop.input-sources …`, found in many answers in the Internet is not working anymore in the latest Ubuntu versions.
-* `setxkbmap …` doesn't play well with the Gnome shell.
+* `setxkbmap …` doesn't play well with the GNOME Shell.
 It switches the layout, but the UI doesn't reflect the change and you cannot switch languages with the keyboard shortcut anymore untill you restart.
 * The `gdbus call … method org.gnome.Shell.Eval` is deprecated & disabled due to the security reasons with the `Eval` method.
 * Finally, the `org.gnome.Shell.Shell.Eval` https://github.com/ramottamado/eval-gjs[replacement] is really sketchy, and it's essentially the same powerfulr `Eval` but from a third-party dev from GitHub.
 
 == The Solution
 
-Create a Gnome shell extension that allows to switch keyboard layouts programmatically.
+https://extensions.gnome.org/extension/6691/shyriiwook[Shyriiwook] is a GNOME Shell extension that allows to switch keyboard layouts programmatically.
 The extension exposes a D-Bus interface, that could be used to query for the available layouts and to switch between them via `gdbus call …`.
-However, it is programmed to only swithc between the layouts, and does not expose a security breach like the `Eval` method.
+However, it is programmed to only switch between the layouts, and does not expose a security breach like the `Eval` method.
 
 == Usage
 
-Fiest, install the extension.
+First, install the extension.
+You could find it in the https://extensions.gnome.org/extension/6691/shyriiwook[GNOME Extensions].
+Just follow the instructions.
+
+Alternatively, you could use the https://github.com/mjakeman/extension-manager[Extension Manager] app to find `Shyriiwook` and install it from there.
+
+Finally, you could <<building,build>> the extension from the source code and install it manually.
+
+After the extension is installed, you could use the `gdbus` tool to query for the available layouts and to switch between them.
 
 To query for the available layouts, run:
 
 [source, bash]
 ----
-gdbus introspect --session --dest org.gnome.Shell --object-path /me/madhead/Shyyriiwook --only-properties
+gdbus introspect --session --dest org.gnome.Shell --object-path /me/madhead/Shyriiwook --only-properties
 ----
 
 It will output something like this:
@@ -51,3 +59,43 @@ gdbus call --session --dest org.gnome.Shell --object-path /me/madhead/Shyriiwook
 
 That's it!
 Now you could use that in your scripts, or even bind it to a keyboard shortcut in Gnome settings.
+
+[#building]
+== Building from source
+
+First, https://help.gnome.org/users/gnome-help/stable/gnome-version.html.en[determine] your GNOME version.
+Starting from GNOME 45 some of the APIs used by the extension have changed, so you need to build the extension with the correct version.
+
+To build the extension, you need to have the https://gradle.org/install/[Gradle] build tool installed.
+
+Then, just run:
+
+[source, bash]
+----
+./gradlew 42 # To build for the GNOME 42
+./gradlew 45 # To build for the GNOME 45
+----
+
+The `build` directory will contain the extension in a corresponding subdirectory.
+
+To build the extension ZIP archive, run:
+
+[source, bash]
+----
+./gradlew extension-42
+./gradlew extension-45
+----
+
+If you want to tinker with the extension, you could run Gradle in continuous build mode:
+
+[source, bash]
+----
+./gradlew -t 42
+----
+
+And then symlink the build directory to the extensions directory:
+
+[source, bash]
+----
+ln -s $(pwd)/build/42 ~/.local/share/gnome-shell/extensions/shyriiwook@madhead.me
+----

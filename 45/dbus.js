@@ -1,4 +1,4 @@
-export var DBUS_INTERFACE = `
+export const DBUS_INTERFACE = `
   <node>
     <interface name="me.madhead.Shyriiwook">
 
@@ -12,4 +12,4 @@ export var DBUS_INTERFACE = `
   </node>
 `;
 
-export var DBUS_PATH = '/me/madhead/Shyriiwook';
+export const DBUS_PATH = '/me/madhead/Shyriiwook';

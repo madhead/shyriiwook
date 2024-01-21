@@ -1,8 +1,10 @@
-export var DBUS_INTERFACE = `
+export const DBUS_INTERFACE = `
   <node>
     <interface name="me.madhead.Shyriiwook">
 
       <property name="availableLayouts" type="as" access="read" />
+
+      <property name="currentLayout" type="s" access="read" />
       
       <method name="activate">
         <arg type="s" direction="in" name="layout"/>
@@ -12,4 +14,4 @@ export var DBUS_INTERFACE = `
   </node>
 `;
 
-export var DBUS_PATH = '/me/madhead/Shyriiwook';
+export const DBUS_PATH = '/me/madhead/Shyriiwook';

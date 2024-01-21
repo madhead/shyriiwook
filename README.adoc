@@ -46,6 +46,7 @@ node /me/madhead/Shyriiwook {
   interface me.madhead.Shyriiwook {
     properties:
       readonly as availableLayouts = ['us', 'by+ru'];
+      readonly s currentLayout = 'us';
   };
 };
 ----
@@ -57,8 +58,11 @@ These `availableLayouts` could be used to switch between the layouts, just pass 
 gdbus call --session --dest org.gnome.Shell --object-path /me/madhead/Shyriiwook --method me.madhead.Shyriiwook.activate "by+ru"
 ----
 
+The `currentLayout` property, obviously, contains the current layout.
+
 That's it!
-Now you could use that in your scripts, or even bind it to a keyboard shortcut in Gnome settings.
+Now you could use those in your scripts, or even bind it to a keyboard shortcut in Gnome settings.
+To do that, add a new custom shortcut with the `dbus call …` command under the "Settings" → "Keyboard" → "Keyboard Shortcuts" → "View and Customise Shortcuts" → "Custom Shortcuts".
 
 [#building]
 == Building from source

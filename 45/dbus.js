@@ -3,6 +3,8 @@ export const DBUS_INTERFACE = `
     <interface name="me.madhead.Shyriiwook">
 
       <property name="availableLayouts" type="as" access="read" />
+
+      <property name="currentLayout" type="s" access="read" />
       
       <method name="activate">
         <arg type="s" direction="in" name="layout"/>

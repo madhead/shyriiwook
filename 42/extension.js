@@ -3,7 +3,7 @@ const Me = ExtensionUtils.getCurrentExtension();
 const dbus = Me.imports.dbus;
 
 const { Gio } = imports.gi;
-const { getInputSourceManager } = imports.ui.status.keyboard;
+const Keyboard = imports.ui.status.keyboard;
 
 class Extension {
     enable() {
@@ -18,7 +18,7 @@ class Extension {
     }
 
     get availableLayouts() {
-        let sources = getInputSourceManager().inputSources;
+        let sources = Keyboard.getInputSourceManager().inputSources;
         let indices = Object.keys(sources).sort((a, b) => a - b);
         let layouts = [];
 
@@ -28,8 +28,12 @@ class Extension {
         return layouts;
     }
 
+    get currentLayout() {
+        return Keyboard.getInputSourceManager().currentSource.id;
+    }
+
     activate(layout) {
-        let sources = getInputSourceManager().inputSources;
+        let sources = Keyboard.getInputSourceManager().inputSources;
 
         for (let index in sources) {
             if (sources[index].id == layout) {

@@ -30,6 +30,10 @@ export default class ShyriiwookExtension extends Extension {
         return layouts;
     }
 
+    get currentLayout() {
+        return Keyboard.getInputSourceManager().currentSource.id;
+    }
+
     activate(layout) {
         let sources = Keyboard.getInputSourceManager().inputSources;
 

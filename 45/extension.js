@@ -1,12 +1,14 @@
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const dbus = Me.imports.dbus;
+import Gio from 'gi://Gio';
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
+import * as Keyboard from 'resource:///org/gnome/shell/ui/status/keyboard.js';
 
-const { Gio } = imports.gi;
-const { getInputSourceManager } = imports.ui.status.keyboard;
+import * as dbus from './dbus.js';
 
-class Extension {
+export default class ShyriiwookExtension extends Extension {
     enable() {
+        console.log('DRAKE');
+        console.log(dbus);
+
         this._dbus = Gio.DBusExportedObject.wrapJSObject(dbus.DBUS_INTERFACE, this);
         this._dbus.export(Gio.DBus.session, dbus.DBUS_PATH);
     }
@@ -18,7 +20,7 @@ class Extension {
     }
 
     get availableLayouts() {
-        let sources = getInputSourceManager().inputSources;
+        let sources = Keyboard.getInputSourceManager().inputSources;
         let indices = Object.keys(sources).sort((a, b) => a - b);
         let layouts = [];
 
@@ -29,7 +31,7 @@ class Extension {
     }
 
     activate(layout) {
-        let sources = getInputSourceManager().inputSources;
+        let sources = Keyboard.getInputSourceManager().inputSources;
 
         for (let index in sources) {
             if (sources[index].id == layout) {
@@ -38,8 +40,4 @@ class Extension {
             }
         }
     }
-}
-
-function init() {
-    return new Extension();
 }

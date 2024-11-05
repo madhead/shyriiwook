@@ -6,9 +6,6 @@ import * as dbus from './dbus.js';
 
 export default class ShyriiwookExtension extends Extension {
     enable() {
-        console.log('DRAKE');
-        console.log(dbus);
-
         this._dbus = Gio.DBusExportedObject.wrapJSObject(dbus.DBUS_INTERFACE, this);
         this._dbus.export(Gio.DBus.session, dbus.DBUS_PATH);
     }

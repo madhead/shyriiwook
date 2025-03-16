@@ -67,17 +67,14 @@ To do that, add a new custom shortcut with the `dbus call …` command under the
 [#building]
 == Building from source
 
-First, https://help.gnome.org/users/gnome-help/stable/gnome-version.html.en[determine] your GNOME version.
-Starting from GNOME 45 some of the APIs used by the extension have changed, so you need to build the extension with the correct version.
-
-To build the extension, you need to have the https://gradle.org/install/[Gradle] build tool installed.
+To build the extension, you need to have the Make build tool installed.
 
 Then, just run:
 
 [source, bash]
 ----
-./gradlew 42 # To build for the GNOME 42
-./gradlew 45 # To build for the GNOME 45
+make 42 # To build for the GNOME 42
+make 45 # To build for the GNOME 45
 ----
 
 The `build` directory will contain the extension in a corresponding subdirectory.
@@ -86,20 +83,19 @@ To build the extension ZIP archive, run:
 
 [source, bash]
 ----
-./gradlew extension-42
-./gradlew extension-45
+make extension-42
+make extension-45
 ----
 
-If you want to tinker with the extension, you could run Gradle in continuous build mode:
-
-[source, bash]
-----
-./gradlew -t 42
-----
-
-And then symlink the build directory to the extensions directory:
+If you want to tinker with the extension, you could symlink the directory to the extensions directory:
 
 [source, bash]
 ----
-ln -s $(pwd)/build/42 ~/.local/share/gnome-shell/extensions/shyriiwook@madhead.me
+ln -s $(pwd)/42 ~/.local/share/gnome-shell/extensions/shyriiwook@madhead.me
+----
+
+To build and install the extension, you could run
+[source, bash]
+----
+make install
 ----

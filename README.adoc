@@ -67,6 +67,9 @@ To do that, add a new custom shortcut with the `dbus call …` command under the
 [#building]
 == Building from source
 
+First, https://help.gnome.org/users/gnome-help/stable/gnome-version.html.en[determine] your GNOME version.
+Starting from GNOME 45 some of the APIs used by the extension have changed, so you need to build the extension with the correct version.
+
 To build the extension, you need to have the Make build tool installed.
 
 Then, just run:

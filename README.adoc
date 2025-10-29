@@ -29,7 +29,7 @@ Alternatively, you could use the https://github.com/mjakeman/extension-manager[E
 
 Finally, you could <<building,build>> the extension from the source code and install it manually.
 
-After the extension is installed, you could use the `gdbus` tool to query for the available layouts and to switch between them.
+After the extension is installed and enabled (`gnome-extensions enable shyriiwook@madhead.me`), you could use the `gdbus` tool to query for the available layouts and to switch between them.
 
 To query for the available layouts, run:
 
